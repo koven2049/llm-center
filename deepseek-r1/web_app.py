@@ -127,7 +127,7 @@ def main():
         st.write("### Select Provider")
         api_provider = st.radio(
             "Choose Provider:",
-            ["SiliconFlow", "Bailian", "Qwen"],
+            ["SiliconFlow", "Bailian", "Qwen", "Bytedance"],
             index=0,
             help="Choose between SiliconFlow, Aliyun Bailian and Qwen services"
         ).lower()
@@ -159,9 +159,13 @@ def main():
             if 'form_submitted' in st.session_state:
                 del st.session_state.form_submitted
 
-        # 显示当前配置
-        st.write(f"Active modes: {', '.join(m.upper() for m in current_modes)}")
-        st.write(f"API Provider: {api_provider.upper()}")
+        # 获取当前模型名称
+        current_model_name = st.session_state.model_handler._determine_model_name(current_modes)
+
+        # 显示当前配置 (Provider, Mode, Model Name)
+        st.write(f"**Provider:** {api_provider.upper()}")
+        st.write(f"**Mode:** {', '.join(m.upper() for m in current_modes).upper()}") # Mode 也显示为大写
+        st.write(f"**Model:** {current_model_name}")
 
         # 添加快捷键提示
         st.markdown("""
@@ -219,7 +223,7 @@ def main():
                             # 更新统计信息
                             update_token_stats(
                                 api_provider,
-                                st.session_state.model_handler._determine_model_name(current_modes),
+                                current_model_name,
                                 prompt_tokens,
                                 completion_tokens
                             )
@@ -230,7 +234,7 @@ def main():
                             # 添加到聊天历史
                             st.session_state.chat_history.append({
                                 'turn_num': len(st.session_state.chat_history) + 1,
-                                'model_name': st.session_state.model_handler._determine_model_name(current_modes),
+                                'model_name': current_model_name,
                                 'time': elapsed_time,
                                 'prompt_tokens': prompt_tokens,
                                 'completion_tokens': completion_tokens,

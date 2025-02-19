@@ -42,6 +42,18 @@ class DeepseekHandler:
                 'chat_path': 'QWEN_API_CHAT_PATH'
             },
             'auth_format': '{api_key}'  # 根据 qwen 的认证方式调整
+        },
+        'bytedance': {
+            'models': {
+                'chat': 'deepseek-r1-distill-qwen-7b-250120',
+                'reasoning': 'deepseek-r1-distill-qwen-32b-250120'
+            },
+            'env_keys': {
+                'api_key': 'BYTEDANCE_API_KEY',
+                'base_url': 'BYTEDANCE_API_BASE_URL',
+                'chat_path': 'BYTEDANCE_API_CHAT_PATH'
+            },
+            'auth_format': 'Bearer {api_key}'
         }
     }
 
@@ -115,7 +127,6 @@ class DeepseekHandler:
                 return f"Error: {response.status_code} - {response.text}"
             
             result = response.json()
-            
             # 保存 usage 信息
             self.last_usage = result.get('usage', {})
             

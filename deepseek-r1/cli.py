@@ -14,7 +14,7 @@ def main():
     mode_group.add_argument("--reasoning", "-r", "--inference", action="store_true", help="Enable reasoning mode (slower, more accurate)")
 
     # 添加 API 提供商选择参数
-    parser.add_argument("--provider", choices=["siliconflow", "bailian", "qwen"],
+    parser.add_argument("--provider", choices=["siliconflow", "bailian", "qwen", "bytedance"],
                        default="siliconflow",
                        help="Choose API service provider (default: siliconflow)")
 
